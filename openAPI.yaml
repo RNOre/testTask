@@ -1,0 +1,207 @@
+openapi: 3.0.0
+info:
+  title: test project
+  version: 0.0.1
+servers:
+  - url: http://localhost:21080
+    description: Dev server
+paths:
+  /test/index:
+    get:
+      summary: Метод получения списка комментариев
+      tags:
+        - Comments
+      operationId: getAllComments
+      responses:
+        '200':
+          description: Успешный ответ со списком комментариев
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Comments"
+        'default':
+          description: Все нестандартное
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /test/view/{comment_id}:
+    get:
+      summary: Метод получение комментария
+      tags:
+        - Comments
+      operationId: getCommentById
+      parameters:
+        - name: comment_id
+          in: path
+          required: true
+          description: Идентификатор комментария
+          schema:
+            type: string
+            example: 1
+      responses:
+        '200':
+          description: Успешный ответ с данными о комментарии
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Comment"
+        'default':
+          description: Все нестандартное
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+
+  /test/create:
+    post:
+      summary: Метод добавления комментария
+      tags:
+        - Comments
+      operationId: postComment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CommentCreate"
+      responses:
+        '200':
+          description: Успешный ответ с данными о новом комментарии
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommentCreate"
+        'default':
+          description: Все нестандартное
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /test/update/{comment_id}:
+    put:
+      summary: Метод изменения данных комментария
+      tags:
+        - Comments
+      operationId: putComment
+      parameters:
+        - name: comment_id
+          in: path
+          required: true
+          description: Идентификатор комментария
+          schema:
+            type: string
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CommentCreate"
+      responses:
+        '200':
+          description: Успешный ответ с данными о новом комментарии
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Comment"
+        'default':
+          description: Все нестандартное
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+
+  /test/delete/{comment_id}:
+    delete:
+      summary: Удаление комментария
+      tags:
+      - Comments
+      operationId: deleteCommentsById
+      parameters:
+        - name: comment_id
+          in: path
+          required: true
+          description: Идентификатор комментария
+          schema:
+            type: string
+            example: 1
+      responses:
+        '200':
+          description: Успешное удаление комментария
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Comment"
+        'default':
+          description: Все нестандартное
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+
+components:
+  schemas:
+    Comment:
+      type: object
+      required:
+        - id
+        - text
+        - date
+        - status
+        - userId
+      properties:
+        id:
+          type: number
+          example: 1
+        text:
+          type: string
+          example: Adipisci vero rerum porro qui consectetur. Modi aut architecto quasi modi sint natus molestiae.
+        date:
+          type: date
+          example: 1982-02-17
+        status:
+          type: number
+          example: 1
+        userId:
+          type: number
+          example: 1
+    CommentCreate:
+      type: object
+      required:
+        - text
+        - date
+        - status
+        - userId
+      properties:
+        text:
+          type: string
+          example: Adipisci vero rerum porro qui consectetur. Modi aut architecto quasi modi sint natus molestiae.
+        date:
+          type: date
+          example: 1982-02-17
+        status:
+          type: number
+          example: 1
+        userId:
+          type: number
+          example: 1
+    Comments:
+      type: array
+      items:
+        $ref: "#/components/schemas/Comment"
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+        message:
+          type: string  
