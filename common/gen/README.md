@@ -50,74 +50,39 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 
-$apiInstance = new OpenAPI\Client\Api\DefaultApi(
+$apiInstance = new OpenAPI\Client\Api\CommentsApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$user_auth = new \OpenAPI\Client\Model\UserAuth(); // \OpenAPI\Client\Model\UserAuth
+$comment_id = 1; // string | Идентификатор комментария
 
 try {
-    $result = $apiInstance->authPost($user_auth);
+    $result = $apiInstance->deleteCommentsById($comment_id);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling DefaultApi->authPost: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling CommentsApi->deleteCommentsById: ', $e->getMessage(), PHP_EOL;
 }
 
 ```
 
 ## API Endpoints
 
-All URIs are relative to *http://localhost*
+All URIs are relative to *http://localhost:21080*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*DefaultApi* | [**authPost**](docs/Api/DefaultApi.md#authpost) | **POST** /auth | Auth user
-*DefaultApi* | [**confirmEventPost**](docs/Api/DefaultApi.md#confirmeventpost) | **POST** /confirmEvent | 
-*DefaultApi* | [**eventAnalyticsGet**](docs/Api/DefaultApi.md#eventanalyticsget) | **GET** /event/analytics | 
-*DefaultApi* | [**eventPost**](docs/Api/DefaultApi.md#eventpost) | **POST** /event | post event
-*DefaultApi* | [**eventsGet**](docs/Api/DefaultApi.md#eventsget) | **GET** /events | get events for this user
-*DefaultApi* | [**partnerInfoGet**](docs/Api/DefaultApi.md#partnerinfoget) | **GET** /partner/info | 
-*DefaultApi* | [**registrationPost**](docs/Api/DefaultApi.md#registrationpost) | **POST** /registration | Add a new user
-*DefaultApi* | [**representativeInfoGet**](docs/Api/DefaultApi.md#representativeinfoget) | **GET** /representative/info | 
-*DefaultApi* | [**sportsmanInfoGet**](docs/Api/DefaultApi.md#sportsmaninfoget) | **GET** /sportsman/info | 
-*DefaultApi* | [**sportsmanInfoPost**](docs/Api/DefaultApi.md#sportsmaninfopost) | **POST** /sportsman/info | 
-*DefaultApi* | [**userGet**](docs/Api/DefaultApi.md#userget) | **GET** /user | get user info
-*DefaultApi* | [**userPost**](docs/Api/DefaultApi.md#userpost) | **POST** /user | set user info
-*DefaultApi* | [**userRolePost**](docs/Api/DefaultApi.md#userrolepost) | **POST** /user/role | admin set role for user
-*EquipmentApi* | [**addEquipment**](docs/Api/EquipmentApi.md#addequipment) | **POST** /api/v1/equipment | Endpoint для добавления информации
-*EquipmentApi* | [**findEquipment**](docs/Api/EquipmentApi.md#findequipment) | **GET** /api/v1/equipment | Endpoint для получения списка
-*EquipmentApi* | [**findStatusEquipment**](docs/Api/EquipmentApi.md#findstatusequipment) | **GET** /api/v1/equipment/status | Endpoint для получения списка статусов оборудования
-*EquipmentApi* | [**findTypeEquipment**](docs/Api/EquipmentApi.md#findtypeequipment) | **GET** /api/v1/equipment/type | Endpoint для получения списка типов оборудования
-*EquipmentApi* | [**updateEquipment**](docs/Api/EquipmentApi.md#updateequipment) | **PATCH** /api/v1/equipment/{id} | Endpoint для редактирования информации
-*MedicalApi* | [**addMedicalFacility**](docs/Api/MedicalApi.md#addmedicalfacility) | **POST** /api/v1/medical | Endpoint для добавления информации
-*MedicalApi* | [**findMedicalFacility**](docs/Api/MedicalApi.md#findmedicalfacility) | **GET** /api/v1/medical | Endpoint для получения списка
-*MedicalApi* | [**getMedicalById**](docs/Api/MedicalApi.md#getmedicalbyid) | **DELETE** /api/v1/medical/{inn}/{kpp} | Endpoint для удаления информации
+*CommentsApi* | [**deleteCommentsById**](docs/Api/CommentsApi.md#deletecommentsbyid) | **DELETE** /test/delete/{comment_id} | Удаление комментария
+*CommentsApi* | [**getAllComments**](docs/Api/CommentsApi.md#getallcomments) | **GET** /test/index | Метод получения списка комментариев
+*CommentsApi* | [**getCommentById**](docs/Api/CommentsApi.md#getcommentbyid) | **GET** /test/view/{comment_id} | Метод получение комментария
+*CommentsApi* | [**postComment**](docs/Api/CommentsApi.md#postcomment) | **POST** /test/create | Метод добавления комментария
+*CommentsApi* | [**putComment**](docs/Api/CommentsApi.md#putcomment) | **PUT** /test/update/{comment_id} | Метод изменения данных комментария
 
 ## Models
 
-- [BadRequest](docs/Model/BadRequest.md)
-- [Equipment](docs/Model/Equipment.md)
-- [EquipmentPatch](docs/Model/EquipmentPatch.md)
-- [Event](docs/Model/Event.md)
-- [EventMember](docs/Model/EventMember.md)
-- [EventStatus](docs/Model/EventStatus.md)
-- [MedicalFacility](docs/Model/MedicalFacility.md)
-- [MedicalFacilityMainBranch](docs/Model/MedicalFacilityMainBranch.md)
-- [NotFound](docs/Model/NotFound.md)
-- [Partner](docs/Model/Partner.md)
-- [Passport](docs/Model/Passport.md)
-- [Rating](docs/Model/Rating.md)
-- [RatingPosition](docs/Model/RatingPosition.md)
-- [Representative](docs/Model/Representative.md)
-- [Sex](docs/Model/Sex.md)
-- [Sportsman](docs/Model/Sportsman.md)
-- [StatusEquipment](docs/Model/StatusEquipment.md)
-- [TypeEquipment](docs/Model/TypeEquipment.md)
-- [User](docs/Model/User.md)
-- [UserAuth](docs/Model/UserAuth.md)
-- [UserRegistration](docs/Model/UserRegistration.md)
-- [UserRole](docs/Model/UserRole.md)
+- [Comment](docs/Model/Comment.md)
+- [CommentCreate](docs/Model/CommentCreate.md)
+- [Error](docs/Model/Error.md)
 
 ## Authorization
 All endpoints do not require authorization.
@@ -138,5 +103,5 @@ vendor/bin/phpunit
 
 This PHP package is automatically generated by the [OpenAPI Generator](https://openapi-generator.tech) project:
 
-- API version: `1.0.0`
+- API version: `0.0.1`
 - Build package: `org.openapitools.codegen.languages.PhpClientCodegen`

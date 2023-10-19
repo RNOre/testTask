@@ -6,6 +6,8 @@ use common\models\Comment;
 use common\models\User;
 use common\models\Test;
 use Yii;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\rest\ActiveController;
 use yii\web\Controller;
 
@@ -13,9 +15,26 @@ class TestController extends Controller
 {
     public $modelClass = 'common\models\Comment';
 
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'only' => ['index'],
+                'rules' => [
+                    [
+                        'actions' => ['index'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ];
+    }
+
     public function actionIndex()
     {
-        return 'jdfs';
+        return 'index';
     }
     public function actionView($id)
     {

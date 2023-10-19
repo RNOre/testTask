@@ -11,12 +11,13 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log', 'gii'],
-    'modules'=>[
-        'gii'=>[
-            'class'=>'yii\gii\Module'
+    'modules' => [
+        'gii' => [
+            'class' => 'yii\gii\Module'
         ],
         'user' => [
-            'class' => 'dektrium\user\Module',
+            // following line will restrict access to profile, recovery, registration and settings controllers from backend
+            'as backend' => 'dektrium\user\filters\BackendFilter',
         ],
     ],
     'components' => [
@@ -26,6 +27,13 @@ return [
             ],
             'csrfParam' => '_csrf-backend',
         ],
+//        'user' => [
+//            'class' => 'dektrium\user\Module',
+//            'enableUnconfirmedLogin' => true,
+//            'confirmWithin' => 21600,
+//            'cost' => 12,
+//            'admins' => ['admin']
+//        ],
 //        'user' => [
 //            'identityClass' => 'common\models\User',
 //            'enableAutoLogin' => true,
@@ -60,7 +68,7 @@ return [
             'enablePrettyUrl' => true,
             'enableStrictParsing' => true,
             'showScriptName' => false,
-            'rules' =>[
+            'rules' => [
 //                '' => 'test/index',
                 '<controller:\w+>/<action:\w+>/' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',

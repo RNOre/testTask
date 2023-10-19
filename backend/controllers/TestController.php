@@ -10,7 +10,7 @@ use yii\web\Controller;
 
 class TestController extends ActiveController
 {
-    public $modelClass = 'common\models\Comment';
+    public $modelClass = 'common\models\User';
     public $serializer = [
         'class' => 'yii\rest\Serializer',
         'collectionEnvelope' => 'items',
