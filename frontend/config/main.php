@@ -23,11 +23,38 @@ return [
         ],
         'admin' => [
             'class' => 'mdm\admin\Module',
+            'layout' => 'left-menu', // it can be '@path/to/your/layout'.
+            'controllerMap' => [
+                'assignment' => [
+                    'class' => 'mdm\admin\controllers\AssignmentController',
+                    'userClassName' => 'app\models\User',
+                    'idField' => 'user_id'
+                ],
+                'other' => [
+                    'class' => 'path\to\OtherController', // add another controller
+                ],
+            ],
+            'menus' => [
+                'assignment' => [
+                    'label' => 'Grand Access' // change label
+                ],
+                'route' => null, // disable menu route
             ]
+        ],
+        'as access' => [
+            'class' => 'mdm\admin\components\AccessControl',
+            'allowActions' => [
+                'site/login',
+                'site/error',
+            ]
+        ]
     ],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
         'request' => [
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ],
             'csrfParam' => '_csrf-frontend',
         ],
         'authManager' => [
@@ -38,7 +65,7 @@ return [
             'allowActions' => [
                 'admin/*', // add or remove allowed actions to this list
             ],
-            ],
+        ],
 //        'user' => [
 //            'class' => 'dektrium\user\Module',
 //            'enableUnconfirmedLogin' => true,
@@ -67,11 +94,25 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+        'response' => [
+            'formatters' => [
+                \yii\web\Response::FORMAT_JSON => [
+                    'class' => 'yii\web\JsonResponseFormatter',
+                    'prettyPrint' => YII_DEBUG, // use "pretty" output in debug mode
+                    'encodeOptions' => JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE,
+                ],
+            ],
+        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
+            'enableStrictParsing' => true,
             'showScriptName' => false,
             'rules' => [
-            ],
+//                '' => 'test/index',
+                '<controller:\w+>/<action:\w+>/' => '<controller>/<action>',
+                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+//                ['class' => 'yii\rest\UrlRule', 'controller' => 'test'],
+            ]
         ],
     ],
     'params' => $params,

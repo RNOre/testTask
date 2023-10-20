@@ -18,7 +18,10 @@ class Comment extends ActiveRecord
             [['text', 'date', 'userId', 'status'], 'required']
         ];
     }
-
+    public function getUser()
+    {
+        return $this->hasOne(User::class, ['id' => 'userId']);
+    }
     public function fields()
     {
         return [
@@ -26,12 +29,13 @@ class Comment extends ActiveRecord
             'text',
             'date',
             'status',
-            'userId'
+            'userId',
         ];
     }
-
-    public function getUser()
+    public function extraFields()
     {
-        return $this->hasOne(User::class, ['id' => 'userId']);
+        return [
+            'user'
+        ];
     }
 }
