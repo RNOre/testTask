@@ -54,12 +54,13 @@ return [
         'request' => [
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser',
+                'text/json' => 'yii\web\JsonParser',
             ],
             'csrfParam' => '_csrf-frontend',
         ],
-//        'authManager' => [
-//            'class' => 'yii\rbac\PhpManager', // or use 'yii\rbac\DbManager'
-//        ],
+        'authManager' => [
+            'class' => 'yii\rbac\PhpManager', // or use 'yii\rbac\DbManager'
+        ],
         'as access' => [
             'class' => 'mdm\admin\components\AccessControl',
             'allowActions' => [
