@@ -2,20 +2,26 @@
 
 namespace frontend\controllers;
 
+use yii\filters\auth\HttpBearerAuth;
+use yii\filters\Cors;
+use yii\rest\ActiveController;
+use yii\filters\auth\HttpBasicAuth;
+
 use common\models\Comment;
 use common\models\User;
 use common\models\Test;
 use Yii;
 use yii\filters\AccessControl;
-use yii\filters\Cors;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
-use yii\rest\ActiveController;
 use yii\web\Controller;
 
 class CommentController extends ActiveController
 {
     public $modelClass = 'common\models\Comment';
+
+    public $enableCsrfValidation = false;
+
 
     public $serializer = [
         'class' => 'yii\rest\Serializer',
@@ -23,34 +29,30 @@ class CommentController extends ActiveController
     ];
 
 
-    public function beforeAction($action)
-    {
-        $this->enableCsrfValidation = false;
-        return parent::beforeAction($action);
-    }
-
     public function behaviors()
     {
-        $behaviors = parent::behaviors();
-        $behaviors['corsFilter'] = [
-            'class' => \yii\filters\Cors::class,
-            'cors' => [
-                // restrict access to
-                'Origin' => ['*'],
-                // Allow  methods
-                'Access-Control-Request-Method' => ['POST', 'PUT', 'OPTIONS', 'GET', 'DELETE'],
-                // Allow only headers 'X-Wsse'
-                'Access-Control-Request-Headers' => ['*'],
-                'Access-Control-Allow-Headers' => ['Content-Type'],
-                // Allow credentials (cookies, authorization headers, etc.) to be exposed to the browser
-//                'Access-Control-Allow-Credentials' => true,
-                // Allow OPTIONS caching
 
-                'Access-Control-Max-Age' => 3600,
-                // Allow the X-Pagination-Current-Page header to be exposed to the browser.
-                'Access-Control-Expose-Headers' => ['*']
-            ],
+        $behaviors = parent::behaviors();
+
+        $behaviors['authenticator'] = [
+            'class' => HttpBearerAuth::class,
         ];
+        // remove authentication filter
+        $auth = $behaviors['authenticator'];
+
+        unset($behaviors['authenticator']);
+
+        // add CORS filter
+        $behaviors['corsFilter'] = [
+            'class' => \yii\filters\Cors::className(),
+
+        ];
+
+        // re-add authentication filter
+        $behaviors['authenticator'] = $auth;
+        // avoid authentication on CORS-pre-flight requests (HTTP OPTIONS method)
+        $behaviors['authenticator']['except'] = ['options'];
+
         return $behaviors;
     }
 }

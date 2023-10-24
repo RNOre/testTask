@@ -57,13 +57,23 @@ return [
             ],
             'csrfParam' => '_csrf-frontend',
         ],
-        'authManager' => [
-            'class' => 'yii\rbac\PhpManager', // or use 'yii\rbac\DbManager'
-        ],
+//        'authManager' => [
+//            'class' => 'yii\rbac\PhpManager', // or use 'yii\rbac\DbManager'
+//        ],
         'as access' => [
             'class' => 'mdm\admin\components\AccessControl',
             'allowActions' => [
                 'admin/*', // add or remove allowed actions to this list
+            ],
+        ],
+        'cors' => [
+            'class' => \yii\filters\Cors::class,
+            'cors' => [
+                'Origin' => ['*'],
+                'Access-Control-Allow-Origin' => ['*'],
+                'Access-Control-Allow-Methods' => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+                'Access-Control-Allow-Headers' => ['Origin', 'Content-Type', 'Authorization'],
+                'Access-Control-Allow-Credentials' => true,
             ],
         ],
 //        'user' => [
@@ -111,7 +121,23 @@ return [
 //                '' => 'test/index',
                 '<controller:\w+>/<action:\w+>/' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
-//                ['class' => 'yii\rest\UrlRule', 'controller' => 'test'],
+//                ['class' => 'yii\rest\UrlRule', 'controller' => 'comment'],
+//                [
+//                    'class' => 'yii\rest\UrlRule',
+//                    'controller' => ['scholarship'],
+//                    'extraPatterns' => [
+//                        'OPTIONS index' => 'options',
+//                        'OPTIONS filters' => 'options',
+//                        'OPTIONS {slug}' => 'options',
+//                        'POST filters' => 'filters',
+//                        'GET {slug}' => 'slug',
+//                    ],
+//                    'tokens' => [
+//                        '{id}' => '<id:\\d[\\d,]*>',
+//                        '{slug}' => '<slug>'
+//                    ],
+//
+//                ],
             ]
         ],
     ],
