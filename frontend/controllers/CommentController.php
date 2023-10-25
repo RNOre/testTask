@@ -30,20 +30,20 @@ class CommentController extends ActiveController
         'collectionEnvelope' => 'items',
     ];
 
-    public function behaviors()
+    protected function verbs()
     {
-        $behaviors = parent::behaviors();
-
-        $behaviors['verbs'] = [
-        'class' => \yii\filters\VerbFilter::class,
-        'actions' => [
+        return [
             'index' => ['POST', 'GET', 'HEAD', 'OPTIONS',], //instead of  'index' => ['GET', 'HEAD']
             'view' => ['GET', 'HEAD', 'OPTIONS'],
             'create' => ['POST', 'OPTIONS'],
             'update' => ['PUT', 'PATCH', 'OPTIONS'],
             'delete' => ['DELETE', 'OPTIONS'],
-        ],
-    ];
+        ];
+    }
+
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
 
         unset($behaviors['authenticator']);
         $behaviors['corsFilter'] = [
@@ -56,7 +56,6 @@ class CommentController extends ActiveController
                 'Access-Control-Allow-Credentials' => null,
                 'Access-Control-Max-Age' => 86400,
                 'Access-Control-Expose-Headers' => [],
-                'Access-Control-Allow-Headers' => ['authorization', 'content-type'],
             ],
         ];
         $behaviors['authenticator'] = [

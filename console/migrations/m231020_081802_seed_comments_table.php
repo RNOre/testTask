@@ -28,7 +28,7 @@ class m231020_081802_seed_comments_table extends Migration
                     'text' => $faker->text,
                     'date' => $faker->date,
                     'status' => 1,
-                    'userId' => 9,
+                    'userId' => 1,
                 ]
             );
         }
