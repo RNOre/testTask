@@ -67,6 +67,11 @@ return [
                 'admin/*', // add or remove allowed actions to this list
             ],
         ],
+        'jwt' => [
+            'class' => \sizeg\jwt\Jwt::class,
+            'key' => 'SECRET-KEY',  //typically a long random string
+            'jwtValidationData' => \app\components\JwtValidationData::class,
+        ],
         'cors' => [
             'class' => \yii\filters\Cors::class,
             'cors' => [
