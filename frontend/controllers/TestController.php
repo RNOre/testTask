@@ -63,4 +63,9 @@ class TestController extends Controller
         $request = Yii::$app->request->getRawBody();
         return $request;
     }
+
+    public function actionTest()
+    {
+        return 'fa';
+    }
 }

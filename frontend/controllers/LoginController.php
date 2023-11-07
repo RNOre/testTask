@@ -9,10 +9,11 @@ use dektrium\user\Mailer;
 use dektrium\user\models\RegistrationForm;
 use dektrium\user\models\SettingsForm;
 use dektrium\user\models\User;
+use frontend\models\MyAuthClient;
 use yii\filters\auth\HttpBearerAuth;
 use yii\filters\Cors;
 use yii\web\Controller;
-
+use yii\authclient\OAuth2;
 class LoginController extends Controller
 {
     public $modelClass = 'common\models\User';
@@ -35,6 +36,7 @@ class LoginController extends Controller
             'delete' => ['DELETE', 'OPTIONS'],
             'checkUser' => ['POST', 'OPTIONS'],
             'testUser' => ['POST', 'OPTIONS'],
+            'google'=>['GET', 'OPTIONS']
         ];
     }
 
@@ -86,6 +88,7 @@ class LoginController extends Controller
         $user->email = $email;
 
         $user->register();
+
         $mailer = new Mailer();
         $settingsForm = new SettingsForm($mailer);
 
@@ -103,5 +106,17 @@ class LoginController extends Controller
 
         return $jwt->getBuilder()
             ->getToken($signer, $key);
+    }
+
+    public function actionGoogle()
+    {
+        // assuming class MyAuthClient extends OAuth2
+        $oauthClient = new MyAuthClient();
+        $url = $oauthClient->buildAuthUrl(); // Build authorization URL
+       \Yii::$app->getResponse()->redirect($url); // Redirect to authorization URL.
+// After user returns at our site:
+        $code = \Yii::$app->getRequest()->get('code');
+        $accessToken = $oauthClient->fetchAccessToken($code); // Get access token
+        dd($accessToken);
     }
 }

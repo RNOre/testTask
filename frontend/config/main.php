@@ -51,6 +51,28 @@ return [
     ],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
+        'authClientCollection' => [
+            'class' => 'yii\authclient\Collection',
+            'clients' => [
+                'google' => [
+                    'class' => 'yii\authclient\clients\Google',
+                    'clientId' => '1081605936273-10rsd3ppcjul62rl5sttdces3me9eeqg.apps.googleusercontent.com',
+                    'clientSecret' => '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',
+                ],
+                'vkontakte' => [
+                    'class' => 'dektrium\user\clients\VKontakte',
+                    'clientId' => '51781657',
+                    'clientSecret' => 'kywFTNnf7PBWdT5VoETB',
+                ],
+                'facebook' => [
+                    'class' => 'yii\authclient\clients\Facebook',
+                    'clientId' => 'facebook_client_id',
+                    'clientSecret' => 'секретный_ключ_facebook_client',
+                ],
+                // и т.д.
+            ],
+        ],
+        // ...
         'request' => [
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser',
@@ -124,26 +146,8 @@ return [
             'enableStrictParsing' => true,
             'showScriptName' => false,
             'rules' => [
-//                '' => 'test/index',
                 '<controller:\w+>/<action:\w+>/' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
-//                ['class' => 'yii\rest\UrlRule', 'controller' => 'comment'],
-//                [
-//                    'class' => 'yii\rest\UrlRule',
-//                    'controller' => ['scholarship'],
-//                    'extraPatterns' => [
-//                        'OPTIONS index' => 'options',
-//                        'OPTIONS filters' => 'options',
-//                        'OPTIONS {slug}' => 'options',
-//                        'POST filters' => 'filters',
-//                        'GET {slug}' => 'slug',
-//                    ],
-//                    'tokens' => [
-//                        '{id}' => '<id:\\d[\\d,]*>',
-//                        '{slug}' => '<slug>'
-//                    ],
-//
-//                ],
             ]
         ],
     ],

@@ -2,24 +2,12 @@
 
 namespace frontend\controllers;
 
-use yii\debug\models\search\Db;
-use yii\filters\auth\HttpBearerAuth;
-use yii\filters\ContentNegotiator;
-use yii\filters\Cors;
-use yii\rest\ActiveController;
-use yii\filters\auth\HttpBasicAuth;
-
 use common\models\Comment;
-use common\models\User;
-use common\models\Test;
-use Yii;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
-use yii\helpers\ArrayHelper;
+use yii\filters\auth\HttpBearerAuth;
+use yii\filters\Cors;
 use yii\web\Controller;
-use yii\web\Response;
 
-class CommentController extends ActiveController
+class UserdataController extends Controller
 {
     public $modelClass = 'common\models\Comment';
 
@@ -30,7 +18,6 @@ class CommentController extends ActiveController
         'class' => 'yii\rest\Serializer',
         'collectionEnvelope' => 'items',
     ];
-
     protected function verbs()
     {
         return [
@@ -39,7 +26,7 @@ class CommentController extends ActiveController
             'create' => ['POST', 'OPTIONS'],
             'update' => ['PUT', 'PATCH', 'OPTIONS'],
             'delete' => ['DELETE', 'OPTIONS'],
-            'usercomments'=>['GET', 'OPTIONS', 'POST']
+            'usercomments'=>['GET', 'OPTIONS', 'POST', 'HEAD']
         ];
     }
 
@@ -47,7 +34,7 @@ class CommentController extends ActiveController
     {
         $behaviors = parent::behaviors();
 
-        unset($behaviors['authenticator']);
+//        unset($behaviors['authenticator']);
         $behaviors['corsFilter'] = [
             'class' => Cors::class,
             'cors' => [
@@ -60,10 +47,17 @@ class CommentController extends ActiveController
                 'Access-Control-Expose-Headers' => [],
             ],
         ];
-        $behaviors['authenticator'] = [
-            'class' => HttpBearerAuth::class,
-        ];
+//        $behaviors['authenticator'] = [
+//            'class' => HttpBearerAuth::class,
+//        ];
         return $behaviors;
     }
 
+    public function actionIndex()
+    {
+        \Yii::$app->response->format=\yii\web\Response::FORMAT_JSON;
+        $userId = \Yii::$app->request->post('userId');
+        $comments = Comment::findAll(['userId'=>$userId]);
+        return $comments;
+    }
 }

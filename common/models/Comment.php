@@ -20,7 +20,7 @@ class Comment extends ActiveRecord
     }
     public function getUser()
     {
-        return $this->hasOne(User::class, ['id' => 'userId']);
+        return $this->hasOne(\dektrium\user\models\User::class, ['id' => 'userId']);
     }
     public function fields()
     {

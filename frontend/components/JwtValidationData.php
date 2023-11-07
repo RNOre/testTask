@@ -4,7 +4,7 @@ namespace app\components;
 
 use Yii;
 
-class JwtValidationData extends \sizeg\jwt\Jwt
+class JwtValidationData extends \sizeg\jwt\JwtValidationData
 {
     /**
      * @inheritdoc

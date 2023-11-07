@@ -38,7 +38,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             'username',
-            'avatar'
+            'avatar',
         ];
     }
 

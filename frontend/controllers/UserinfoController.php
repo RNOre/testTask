@@ -2,26 +2,14 @@
 
 namespace frontend\controllers;
 
-use yii\debug\models\search\Db;
+use dektrium\user\models\User;
 use yii\filters\auth\HttpBearerAuth;
-use yii\filters\ContentNegotiator;
 use yii\filters\Cors;
 use yii\rest\ActiveController;
-use yii\filters\auth\HttpBasicAuth;
 
-use common\models\Comment;
-use common\models\User;
-use common\models\Test;
-use Yii;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
-use yii\helpers\ArrayHelper;
-use yii\web\Controller;
-use yii\web\Response;
-
-class CommentController extends ActiveController
+class UserinfoController extends ActiveController
 {
-    public $modelClass = 'common\models\Comment';
+    public $modelClass = '\dektrium\user\models\User';
 
     public $enableCsrfValidation = false;
 
@@ -39,7 +27,6 @@ class CommentController extends ActiveController
             'create' => ['POST', 'OPTIONS'],
             'update' => ['PUT', 'PATCH', 'OPTIONS'],
             'delete' => ['DELETE', 'OPTIONS'],
-            'usercomments'=>['GET', 'OPTIONS', 'POST']
         ];
     }
 
@@ -66,4 +53,33 @@ class CommentController extends ActiveController
         return $behaviors;
     }
 
+    public function actions()
+    {
+        $actions = parent::actions();
+
+        unset($actions['update']);
+        return $actions;
+    }
+
+    public function actionUpdate()
+    {
+        $city = \Yii::$app->request->post('city');
+        $username = \Yii::$app->request->post('username');
+        $phone = \Yii::$app->request->post('phone');
+        $firstname = \Yii::$app->request->post('firstname');
+        $lastname = \Yii::$app->request->post('lastname');
+        $patronymic = \Yii::$app->request->post('patronymic');
+
+        $user = User::findOne(['username' => $username]);
+
+        $user->username = $username;
+        $user->city = $city;
+        $user->phone = $phone;
+        $user->firstname = $firstname;
+        $user->lastname = $lastname;
+        $user->patronymic = $patronymic;
+
+        $user->save();
+        return $user;
+    }
 }
